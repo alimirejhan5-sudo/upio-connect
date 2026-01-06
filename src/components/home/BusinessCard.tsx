@@ -15,6 +15,7 @@ interface BusinessCardProps {
   status: AvailabilityStatus;
   nextSlot?: string;
   delay?: number;
+  onClick?: () => void;
 }
 
 const statusConfig = {
@@ -43,6 +44,7 @@ export function BusinessCard({
   status,
   nextSlot,
   delay = 0,
+  onClick,
 }: BusinessCardProps) {
   const statusInfo = statusConfig[status];
 
@@ -52,7 +54,8 @@ export function BusinessCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.4 }}
       whileTap={{ scale: 0.98 }}
-      className="group overflow-hidden rounded-2xl bg-card shadow-sm transition-shadow hover:shadow-md"
+      onClick={onClick}
+      className="group cursor-pointer overflow-hidden rounded-2xl bg-card shadow-sm transition-shadow hover:shadow-md"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <img

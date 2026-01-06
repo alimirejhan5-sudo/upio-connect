@@ -6,6 +6,10 @@ import { CategoryCard } from "@/components/home/CategoryCard";
 import { BusinessCard } from "@/components/home/BusinessCard";
 import { PromoCard } from "@/components/home/PromoCard";
 
+interface HomePageProps {
+  onBookNow?: () => void;
+}
+
 const categories = [
   { icon: Scissors, label: "Parukeri", count: 156 },
   { icon: Sparkles, label: "Makeup", count: 89 },
@@ -81,7 +85,7 @@ const promos = [
   },
 ];
 
-export function HomePage() {
+export function HomePage({ onBookNow }: HomePageProps) {
   return (
     <div className="flex flex-col gap-6 pb-6">
       {/* Hero Section */}
@@ -132,6 +136,7 @@ export function HomePage() {
               key={business.name}
               {...business}
               delay={index * 0.1}
+              onClick={onBookNow}
             />
           ))}
         </div>

@@ -6,15 +6,44 @@ import { BookingsPage } from "@/pages/BookingsPage";
 import { PromosPage } from "@/pages/PromosPage";
 import { MapPage } from "@/pages/MapPage";
 import { ProfilePage } from "@/pages/ProfilePage";
+import { BookingDetailPage } from "@/pages/BookingDetailPage";
+import { AdminDashboard } from "@/pages/AdminDashboard";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
+  const [showBookingDetail, setShowBookingDetail] = useState(false);
+  const [isAdminMode, setIsAdminMode] = useState(false);
+
+  // Toggle admin mode from profile
+  const handleAdminToggle = () => {
+    setIsAdminMode(!isAdminMode);
+  };
+
+  if (showBookingDetail) {
+    return <BookingDetailPage onBack={() => setShowBookingDetail(false)} />;
+  }
+
+  if (isAdminMode) {
+    return (
+      <div className="mx-auto max-w-md">
+        <AdminDashboard />
+        <div className="fixed bottom-4 left-4 right-4 mx-auto max-w-md">
+          <button
+            onClick={() => setIsAdminMode(false)}
+            className="w-full rounded-xl bg-foreground py-3 text-sm font-medium text-background"
+          >
+            Dil nga Admin Mode
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const renderPage = () => {
     switch (activeTab) {
       case "home":
-        return <HomePage />;
+        return <HomePage onBookNow={() => setShowBookingDetail(true)} />;
       case "bookings":
         return <BookingsPage />;
       case "promos":
@@ -22,9 +51,9 @@ const Index = () => {
       case "map":
         return <MapPage />;
       case "profile":
-        return <ProfilePage />;
+        return <ProfilePage onAdminToggle={handleAdminToggle} />;
       default:
-        return <HomePage />;
+        return <HomePage onBookNow={() => setShowBookingDetail(true)} />;
     }
   };
 
