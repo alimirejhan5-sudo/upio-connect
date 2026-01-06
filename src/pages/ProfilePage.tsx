@@ -15,6 +15,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+interface ProfilePageProps {
+  onAdminToggle?: () => void;
+}
+
 const menuItems = [
   {
     section: "Llogaria",
@@ -26,7 +30,7 @@ const menuItems = [
     ],
   },
   {
-    section: "Preferenact",
+    section: "Preferencat",
     items: [
       { icon: Globe, label: "Gjuha", badge: "Shqip" },
       { icon: Shield, label: "Privatësia & Siguria", badge: null },
@@ -47,7 +51,7 @@ const stats = [
   { icon: Heart, value: "12", label: "Preferuar" },
 ];
 
-export function ProfilePage() {
+export function ProfilePage({ onAdminToggle }: ProfilePageProps) {
   return (
     <div className="flex flex-col gap-6 pb-6 pt-4">
       {/* Profile Header */}
@@ -74,6 +78,29 @@ export function ProfilePage() {
           </div>
         </div>
       </motion.div>
+
+      {/* Admin Mode Button */}
+      {onAdminToggle && (
+        <div className="px-4">
+          <motion.button
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            onClick={onAdminToggle}
+            className="flex w-full items-center justify-between rounded-2xl bg-gradient-to-r from-destructive/10 to-destructive/5 p-4 border border-destructive/20"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-destructive">
+                <Shield className="h-5 w-5 text-destructive-foreground" />
+              </div>
+              <div className="text-left">
+                <p className="font-semibold text-foreground">Super Admin</p>
+                <p className="text-xs text-muted-foreground">Menaxho platformën</p>
+              </div>
+            </div>
+            <ChevronRight className="h-5 w-5 text-destructive" />
+          </motion.button>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 px-4">
@@ -105,7 +132,7 @@ export function ProfilePage() {
               {section.section}
             </h2>
             <div className="overflow-hidden rounded-2xl bg-card shadow-sm">
-              {section.items.map((item, itemIndex) => (
+              {section.items.map((item) => (
                 <button
                   key={item.label}
                   className="flex w-full items-center justify-between border-b border-border/50 p-4 transition-colors hover:bg-secondary/50 last:border-0"
